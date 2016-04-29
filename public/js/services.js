@@ -14,6 +14,9 @@ app.service('Todo', function($http) {
   };
 
   this.create = todo => {
+
+    console.log('todo', todo);
+
     return $http.post('/api/todos', todo);
   };
 
