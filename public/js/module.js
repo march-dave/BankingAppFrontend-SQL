@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('todoApp', ['ui.bootstrap']);
+var app = angular.module('bankApp', ['ui.bootstrap']);
 
 //  module.js
 //

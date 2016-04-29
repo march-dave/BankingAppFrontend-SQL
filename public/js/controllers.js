@@ -1,49 +1,51 @@
 'use strict';
 
-var app = angular.module('todoApp');
+var app = angular.module('bankApp');
 
 // controllers.js
 // all controllers
 
-app.controller('mainCtrl', function($scope, Todo) {
+app.controller('mainCtrl', function($scope, Bank) {
   console.log('mainCtrl!');
 
 
-  Todo.getAll()
+  Bank.getAll()
   .then(res => {
-    $scope.todos = res.data;
-    console.log($scope.todos)
+    $scope.banks = res.data;
+    console.log($scope.banks)
   })
   .catch(err => {
     console.log('err:', err);
   });
 
-  $scope.createTodo = () => {
-    Todo.create($scope.newTodo)
+  $scope.createBank = () => {
+    Bank.create($scope.newBank)
     .then(res => {
-      var todo = res.data;
-      $scope.todos.push(todo);
-      $scope.newTodo = null;
+
+      var bank = res.data;
+
+      $scope.banks.push(bank);
+      $scope.newBank = null;
     })
     .catch(err => {
       console.error(err);
     });
   };
 
-  $scope.removeTodo = todo => {
-    Todo.remove(todo)
+  $scope.removeBank = bank => {
+    Bank.remove(bank)
     .then(() => {
-      var index = $scope.todos.indexOf(todo);
-      $scope.todos.splice(index, 1);
+      var index = $scope.banks.indexOf(bank);
+      $scope.banks.splice(index, 1);
     })
     .catch(err => {
       console.error(err);
     });
   };
 
-  $scope.toggleComplete = todo => {
-    console.log('toggleComplete todo:', todo);
-    Todo.toggle(todo)
+  $scope.toggleComplete = bank => {
+    console.log('toggleComplete bank:', bank);
+    Bank.toggle(bank)
     .then(() => {
 
     })
@@ -51,6 +53,49 @@ app.controller('mainCtrl', function($scope, Todo) {
       console.error(err);
     });
   };
+
+  var currentBalance;
+  var currentIndex;
+  var index;
+
+  var balance = 0;
+  var debits = 0;
+
+  $scope.showEditBalance = function(bank, index) {
+    $scope.editShow = true;
+    currentBalance = bank;
+    currentIndex = index;
+
+    $scope.editDescription = bank.desc2;
+    $scope.editDebits = bank.debits;
+    $scope.editCredits = bank.credits;
+  }
+
+    $scope.saveEdit = function(editDescription, editDebits, editCredits) {
+
+      if (confirm ('Are you sure edit?') ) {
+        var obj = {
+          date: new Date().toISOString().slice(0,10),
+          desc: editDescription,
+          debits: editDebits,
+          credits: editCredits
+        }
+
+        $scope.banks[currentIndex] = obj;
+
+        debits = 0, balance = 0;
+        for (var i=0; i < $scope.banks.length; i++ ) {
+              debits = debits + parseInt($scope.banks[i].debits);
+              balance = balance + parseInt($scope.banks[i].credits);
+        }
+      }
+    }
+
+  $scope.cancelEdit = function() {
+    $scope.newBalanceToEdit = null;
+    $scope.editShow = false;
+  }
+
 
 
 });

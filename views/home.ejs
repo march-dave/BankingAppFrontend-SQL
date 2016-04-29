@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Todo App</title>
+  <title>Banking App Backend</title>
 
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/style.css">
@@ -15,23 +15,90 @@
   <script src="/js/services.js"></script>
 
 </head>
-<body ng-app='todoApp' ng-controller='mainCtrl'>
+<body ng-app='bankApp' ng-controller='mainCtrl'>
   <div class="container">
-    <h1 class="text-center">Todo App!</h1>
+    <h1 class="text-center">Banking App!</h1>
 
-    <form ng-submit='createTodo()'>
-      <div class="form-group">
+    <form ng-submit='createBank()'>
+
+      <!-- <div class="form-group">
         <label for="newTodoDesc">Description</label>
-        <input type="text" class="form-control" placeholder="Buy Eggs." ng-model='newTodo.desc' required>
+        <input type="text" class="form-control" placeholder="Buy Eggs." ng-model='newBank.desc2' required>
       </div>
+
       <div class="form-group">
         <label for="newTodoDueDate">Due Date</label>
-        <input type="date" class="form-control" ng-model='newTodo.dueDate' required>
+        <input type="date" class="form-control" ng-model='newBank.date' required>
+      </div> -->
+
+      <div class="form-group">
+        <label>Date</label>
+        <input type="text" class="form-control" placeholder="Date" ng-model='newBank.date'>
       </div>
-      <button type="submit" class="btn btn-primary">Create Todo</button>
+
+      <div class="form-group">
+        <label>Desc</label>
+        <input type="text" class="form-control" placeholder="Desc" ng-model='newBank.desc2'>
+      </div>
+
+      <div class="form-group">
+        <label>Debits</label>
+        <input type="text" class="form-control" placeholder="Debits" ng-model='newBank.debits'>
+      </div>
+
+      <div class="form-group">
+        <label>Credits</label>
+        <input type="text" class="form-control" placeholder="Credits" ng-model='newBank.credits'>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Create Bank</button>
     </form>
 
+
+    <div class="form-group">
+      <label>Search:</label>
+      <input type="text" class="form-control" placeholder="Search" ng-model='searchFilter'>
+    </div>
+
+    <div class="form-group">
+      <label>orderBy:</label>
+      <input type="text" class="form-control" placeholder="Name" ng-model='sortOrder'>
+    </div>
+
+    <div>
+      <h3>Debit: ${{ getDebit() }},  Balance: ${{ getBalance() }} </h3>
+    </div>
+
     <table class="table">
+       <thead>
+         <th ng-click='sortBy("date")'>Date</th>
+         <th ng-click='sortBy("desc2")'>Desc</th>
+         <th ng-click='sortBy("debits")'>Debits</th>
+         <th ng-click='sortBy("credits")'>Credits</th>
+         <th>Edit / Delete</th>
+       </thead>
+       <tbody>
+         <tr ng-repeat='bank in banks | filter:searchFilter | orderBy:sortOrder track by $index'>
+           <td>{{bank.date}}</td>
+           <td>{{bank.desc2}}</td>
+           <td>{{bank.debits}}</td>
+           <td>{{bank.credits}}</td>
+           <td>
+
+           <button type="button" class="btn btn-primary btn-sm" ng-click='showEditBalance(bank, $index, newBalanceToEdit)'>
+             <span class="glyphicon glyphicon-edit"></span>
+           </button>
+
+           <button type="button" class="btn btn-danger btn-sm" ng-click='removeBank(bank)'>
+             <span class="glyphicon glyphicon-remove"></span>
+           </button>
+           </td>
+         </tr>
+       </tbody>
+     </table>
+
+
+    <!-- <table class="table">
       <thead>
         <tr>
           <th class='col-xs-2'>Created At</th>
@@ -43,27 +110,57 @@
       </thead>
       <tbody class='todoList'>
 
-        <tr ng-repeat='todo in todos'>
-          <td class='createdAt'>{{todo.createdAt | date}}</td>
-          <td class='dueDate'>{{todo.dueDate | date}}</td>
-          <td class='desc'>{{todo.desc2}}</td>
+        <tr ng-repeat='bank in banks'>
+          <td class='createdAt'>{{bank.createdAt | date}}</td>
+          <td class='dueDate'>{{bank.dueDate | date}}</td>
+          <td class='desc'>{{bank.desc2}}</td>
           <td>
             <input class='isComplete'
                    type="checkbox"
-                   ng-checked='todo.isComplete'
-                   ng-click='toggleComplete(todo)'>
+                   ng-checked='bank.isComplete'
+                   ng-click='toggleComplete(bank)'>
           </td>
           <td>
-            <button type="button" class="btn btn-default btn-sm delete" ng-click='removeTodo(todo)'>
+            <button type="button" class="btn btn-default btn-sm delete" ng-click='removeBank(bank)'>
               <span class="glyphicon glyphicon-remove"></span>
             </button>
           </td>
         </tr>
-
-
       </tbody>
-    </table>
+    </table> -->
+
+
+
+
+
+
   </div>
+
+
+  <div ng-show='editShow'>
+    <h2>Edit Balance</h2>
+
+      <div class="form-group">
+          <label>Desc</label>
+          <input type="text" class="form-control" placeholder="Desc" ng-model='editDescription'>
+      </div>
+
+      <div class="form-group">
+        <label>Debits</label>
+        <input type="text" class="form-control" placeholder="Debits" ng-model='editDebits'>
+      </div>
+
+      <div class="form-group">
+        <label>Credits</label>
+        <input type="text" class="form-control" placeholder="Credits" ng-model='editCredits'>
+      </div>
+
+      <button class='btn btn-primary' ng-click='cancelEdit(newBalanceToEdit)'>Cancel</button>
+      <button class='btn btn-primary' ng-click='saveEdit(editDescription, editDebits, editCredits)'>Save</button>
+
+  </div>
+
+
 
 <!--   <div class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">

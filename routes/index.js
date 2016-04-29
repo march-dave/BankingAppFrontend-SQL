@@ -3,23 +3,24 @@
 var express = require('express');
 var router = express.Router();
 
-var moment = require('moment');
-var Todo = require('../models/todo');
+// var moment = require('moment');
+// var Bank = require('../models/todo');
+var Bank = require('../models/bank');
 
 //  GET /
 router.get('/', (req, res) => {
-  Todo.get((err, todos) => {
+  Bank.get((err, banks) => {
     if(err) {
       res.render('error', {error: err})
     } else {
 
-      todos = todos.map(todo => {
-        todo.dueDate = moment(todo.dueDate, 'X').format('l');
-        todo.createdAt = moment(todo.createdAt, 'X').format('l');
-        return todo;
+      banks = banks.map(bank => {
+        // todo.dueDate = moment(todo.dueDate, 'X').format('l');
+        // todo.createdAt = moment(todo.createdAt, 'X').format('l');
+        return bank;
       })
 
-      res.render('home', {todos: todos});
+      res.render('home', {banks: banks});
     }
   })
 })

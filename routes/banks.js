@@ -3,32 +3,33 @@
 var express = require('express');
 var router = express.Router();
 
-var Todo = require('../models/todo');
+// var Bank = require('../models/todo');
+var Bank = require('../models/bank');
 
-//   /api/todos
+//   /api/todo
 router.route('/')
   .get((req, res) => {
 
-    Todo.get((err, todos) => {
+    Bank.get((err, banks) => {
       if(err) {
         return res.status(400).send(err);
       }
 
-      res.send(todos); // todos --> res.data
+      res.send(banks); // banks --> res.data
     });
   })
   .post((req, res) => {
     // req.body  -->  { desc: ??, dueDate: ?? }
-    Todo.create(req.body, (err, newTodo) => {
+    Bank.create(req.body, (err, newBank) => {
       if(err) {
         return res.status(400).send(err);
       }
-      res.send(newTodo);
+      res.send(newBank);
     });
   });
 
 router.put('/:id/toggle', (req, res) => {
-  Todo.toggle(req.params.id, (err, newValue) => {
+  Bank.toggle(req.params.id, (err, newValue) => {
     if(err) {
       return res.status(400).send(err);
     }
@@ -37,7 +38,7 @@ router.put('/:id/toggle', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  Todo.removeById(req.params.id, err => {
+  Bank.removeById(req.params.id, err => {
     res.status(err ? 400 : 200).send(err);
   });
 });

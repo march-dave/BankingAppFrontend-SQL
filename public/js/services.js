@@ -1,31 +1,28 @@
 'use strict';
 
-var app = angular.module('todoApp');
+var app = angular.module('bankApp');
 
 // services.js
 // all services and factories
 
-app.service('Todo', function($http) {
+app.service('Bank', function($http) {
 
-  // manage all todo api calls
+  // manage all bank api calls
 
   this.getAll = () => {
-    return $http.get('/api/todos');
+    return $http.get('/api/banks');
   };
 
-  this.create = todo => {
-
-    console.log('todo', todo);
-
-    return $http.post('/api/todos', todo);
+  this.create = bank => {
+    return $http.post('/api/banks', bank);
   };
 
-  this.remove = todo => {
-    return $http.delete(`/api/todos/${todo.id}`);
+  this.remove = bank => {
+    return $http.delete(`/api/banks/${bank.id}`);
   };
 
-  this.toggle = todo => {
-    return $http.put(`/api/todos/${todo.id}/toggle`);
+  this.toggle = bank => {
+    return $http.put(`/api/banks/${bank.id}/toggle`);
   };
 
 
