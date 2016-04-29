@@ -3,14 +3,10 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-  host     : 'us-cdbr-azure-west-c.cloudapp.net',
-  user     : 'b2d170b20e34e4',
-  password : 'ae236d28',
-  database : 'as_8acbd97353253a1'
-  // host     : 'localhost',
-  // user     : 'root',
-  // password : '1234',
-  // database : 'testdb'
+   host     : 'localhost',
+   user     : 'root',
+   password : '1234',
+   database : 'testdb'
 });
 
 
