@@ -22,7 +22,7 @@ var db = require('../config/db');
 
 db.query(`CREATE TABLE IF NOT EXISTS banks (
   id integer primary key AUTO_INCREMENT,
-  date DATETIME,
+  date DATETIME DEFAULT CURRENT_TIMESTAMP,
   desc2 TEXT,
   debits int,
   credits int,
@@ -56,12 +56,9 @@ exports.create = function(bank, cb) {
   // var createdAt = moment().valueOf();
   // var dueDate = moment(todo.dueDate).valueOf();
 
-
-  console.log('bank', bank);
-
   // `INSERT INTO todos (createdAt, dueDate, desc2) VALUES ('${todo.createdAt}', '${todo.dueDate}', '${todo.desc2}')`
   // db.query(`INSERT INTO banks (desc2) VALUES ('${bank.desc2}')`,
-  db.query(`INSERT INTO banks (date, desc2, debits, credits) VALUES ('${bank.date}', '${bank.desc2}', '${bank.debits}', '${bank.credits}')`,
+  db.query(`INSERT INTO banks (desc2, debits, credits) VALUES ('${bank.desc2}', '${bank.debits}', '${bank.credits}')`,
   // db.query(`INSERT INTO banks (desc2, debits, credits) VALUES ('${bank.desc2}', '${bank.debits}', '${bank.credits}')`,
     (err) => {
       if(err) return cb(err);
@@ -94,59 +91,3 @@ exports.toggle = function(id, cb) {
     });
   });
 };
-
-// 'use strict';
-//
-// var db = require('../config/db');
-// var moment = require('moment');
-//
-// db.run(`CREATE TABLE IF NOT EXISTS todos (
-//           id INTEGER PRIMARY KEY AUTOINCREMENT,
-//           createdAt DATETIME,
-//           dueDate DATETIME,
-//           desc TEXT,
-//           isComplete BOOLEAN DEFAULT false
-//         )`);
-//
-// exports.get = function(cb) {
-//   db.all('SELECT * FROM todos', cb);
-// };
-//
-// exports.getOneById = function(id, cb) {
-//   db.get('SELECT * FROM todos WHERE id = ?', id, cb);
-// };
-//
-// exports.removeById = function(id, cb) {
-//   db.run('DELETE FROM todos WHERE id = ?', id, cb);
-// };
-//
-// exports.create = function(todo, cb) {
-//   if(!todo.dueDate || !todo.desc) {
-//     return cb('Missing required field.')
-//   }
-//
-//   var createdAt = moment().valueOf();
-//   var dueDate = moment(todo.dueDate).valueOf();
-//
-//   db.run('INSERT INTO todos (createdAt, dueDate, desc) VALUES (?, ?, ?)', createdAt, dueDate, todo.desc,
-//     (err) => {
-//       if(err) return cb(err);
-//
-//       db.get(`SELECT *
-//               FROM    todos
-//               WHERE   ID = (SELECT MAX(ID)  FROM todos);`, cb)
-//     });
-// };
-//
-// exports.toggle = function(id, cb) {
-//   this.getOneById(id, (err, todo) => {
-//     if(err) return cb(err);
-//
-//     var newValue = todo.isComplete ? 0 : 1;
-//
-//     db.run("UPDATE todos SET isComplete = ? WHERE id = ?", newValue, id, (err) => {
-//       if(err) return cb(err);
-//       cb(null, newValue);
-//     });
-//   });
-// };

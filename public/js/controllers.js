@@ -19,6 +19,7 @@ app.controller('mainCtrl', function($scope, Bank) {
   });
 
   $scope.createBank = () => {
+
     Bank.create($scope.newBank)
     .then(res => {
 
@@ -71,25 +72,36 @@ app.controller('mainCtrl', function($scope, Bank) {
     $scope.editCredits = bank.credits;
   }
 
-    $scope.saveEdit = function(editDescription, editDebits, editCredits) {
+  $scope.saveEdit = function(editDescription, editDebits, editCredits) {
 
-      if (confirm ('Are you sure edit?') ) {
-        var obj = {
-          date: new Date().toISOString().slice(0,10),
-          desc: editDescription,
-          debits: editDebits,
-          credits: editCredits
-        }
-
-        $scope.banks[currentIndex] = obj;
-
-        debits = 0, balance = 0;
-        for (var i=0; i < $scope.banks.length; i++ ) {
-              debits = debits + parseInt($scope.banks[i].debits);
-              balance = balance + parseInt($scope.banks[i].credits);
-        }
+    if (confirm ('Are you sure edit?') ) {
+      var bank = {
+        date: new Date().toISOString().slice(0,10),
+        desc2: editDescription,
+        debits: editDebits,
+        credits: editCredits
       }
+
+      $scope.banks[currentIndex] = bank;
+
+      debits = 0, balance = 0;
+      for (var i=0; i < $scope.banks.length; i++ ) {
+            debits = debits + parseInt($scope.banks[i].debits);
+            balance = balance + parseInt($scope.banks[i].credits);
+      }
+
+      // update here
+      // toggle
+      // console.log('currentIndex', currentIndex);
+      //
+      // Bank.toggle(currentIndex)
+      // .then(() => {
+      //
+      // })
+
+
     }
+  }
 
   $scope.cancelEdit = function() {
     $scope.newBalanceToEdit = null;
