@@ -13,8 +13,6 @@ var connection = mysql.createConnection({
   // database : 'testdb'
 });
 
-mysql://b2d170b20e34e4:ae236d28@us-cdbr-azure-west-c.cloudapp.net/as_8acbd97353253a1
-
 
 // Database=as_8acbd97353253a1;Data Source=us-cdbr-azure-west-c.cloudapp.net;
 // User Id=b2d170b20e34e4;Password=ae236d28

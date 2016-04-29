@@ -20,14 +20,16 @@ var db = require('../config/db');
 
 // INSERT INTO banks (date, desc2, debits, credits, isComplete) VALUES ('2001-01-01', 'Kat is not Cat', 10, 20, false);
 
+// date DATETIME DEFAULT CURRENT_TIMESTAMP,
 db.query(`CREATE TABLE IF NOT EXISTS banks (
   id integer primary key AUTO_INCREMENT,
-  date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  date DATETIME,
   desc2 TEXT,
   debits int,
   credits int,
   isComplete BOOLEAN DEFAULT false
 )`);
+
 
 exports.get = function(cb) {
   // db.query('SELECT * FROM todos', cb);
