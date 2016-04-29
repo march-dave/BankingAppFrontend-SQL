@@ -1,0 +1,23 @@
+{
+  "name": "BankingAppBackend-SQL",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Dave Lee <ysagny@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/march-dave/BankingAppBackend-SQL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.5",
+    "angular-bootstrap": "^1.3.2"
+  }
+}
